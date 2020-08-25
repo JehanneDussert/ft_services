@@ -1,13 +1,17 @@
+# Is it the right place to put this ?
+sudo apt-get install -y conntrack
+
 # Start minikube
 # Faire condition pour le faire que si minikube est pas allume
 sudo minikube start --driver=none
 sudo chown -R user42 $HOME/.kube $HOME/.minikube
+# End minikube -> minikube delete
 
-# Ouverture du dashboard web pour gere le cluster
+# Web dashboard opening to run the cluster
 sudo minikube dashboard & # -> on peut encore se servir du terminal tout en naviguant sur le dashboard
 # minikube addons enable dashboard
 
-# Lancement du loadbalancer
+# Loadbalancer
 
 # see what changes would be made, returns nonzero returncode if different
 kubectl get configmap kube-proxy -n kube-system -o yaml | \
@@ -19,7 +23,13 @@ kubectl get configmap kube-proxy -n kube-system -o yaml | \
 sed -e "s/strictARP: false/strictARP: true/" | \
 kubectl apply -f - -n kube-system
 
+# Install Metallb
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
 # On first install only
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+
+# In metallb system : 
+# metallb-system/controller : cluster-wide controller that handles IP address assignments
+# metallb-system/speaker : speaks the protocols to make the services reachable
+# Need to define and deploy a configmap ?
