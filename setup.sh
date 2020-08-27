@@ -5,7 +5,7 @@
 sudo apt-get install -y conntrack
 
 # Start minikube
-# Faire condition pour le faire que si minikube est pas allume
+# Faire condition pour le faire que si minikube est pas allume : if / fi
 sudo minikube start --driver=none
 sudo chown -R user42 $HOME/.kube $HOME/.minikube
 # End minikube -> minikube delete
@@ -31,6 +31,8 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manife
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
 # On first install only
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+# If you want to see your secret : kubectl get secrets
+# To use it : a pod has to reference the secret
 
 # In metallb system : 
 # metallb-system/controller : cluster-wide controller that handles IP address assignments
@@ -38,4 +40,4 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 # Need to define and deploy a configmap ?
 
 # Need to clean Metallb
-kubectl delete --
+#kubectl delete --
