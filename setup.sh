@@ -1,3 +1,6 @@
+# My Shebang to execute my code
+#!/bin/bash
+
 # Is it the right place to put this ?
 sudo apt-get install -y conntrack
 
@@ -33,3 +36,6 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 # metallb-system/controller : cluster-wide controller that handles IP address assignments
 # metallb-system/speaker : speaks the protocols to make the services reachable
 # Need to define and deploy a configmap ?
+
+# Need to clean Metallb
+kubectl delete --
