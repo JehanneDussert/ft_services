@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin-deployment
+spec:
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  replicas: 1 # Nb de pods pour le service
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+      containers:
+      - name: phpmyadmin
+        image: phpmyadmin_img
+        ports:
+        - containerPort: 5000
