@@ -46,14 +46,15 @@ kubectl create secret generic -n metallb-system memberlist \
 
 # Need to clean Metallb ?
 
-# Build images for each services
-#docker build -t service_ftps srcs/ftps
-#docker build -t service_nginx srcs/nginx
-#docker build -t service_wordpress srcs/wordpress
-#docker build -t service_mysql srcs/mysql
-#docker build -t service_phpmyadmin srcs/phpmyadmin
-#docker build -t service_grafana srcs/grafana
-#docker build -t service_influxdb srcs/influxdb
+# Build images for each services :
+
+#docker build -t nginx_img srcs/nginx
+#docker build -t ftps_img srcs/ftps
+#docker build -t wordpress_img srcs/wordpress
+#docker build -t mysql_img srcs/mysql
+#docker build -t phpmyadmin_img srcs/phpmyadmin
+#docker build -t grafana_img srcs/grafana
+#docker build -t influxdb_img srcs/influxdb
 
 # Deploy services
 kubectl create -f ./srcs/
