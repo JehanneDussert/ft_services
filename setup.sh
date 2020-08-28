@@ -5,15 +5,16 @@ if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
 	sudo apt-get install -y conntrack
 fi
 # Start minikube
-# Faire condition pour le faire que si minikube est pas allume : if / fi
 if ! kubectl version &>/dev/null; then
 	sudo minikube start --driver=none
+	echo "Starting minikube..."
 fi
 
 sudo chown -R user42 $HOME/.kube $HOME/.minikube
 # End minikube -> minikube delete
 
 # Web dashboard opening to run the cluster
+echo "Opening dashboard..."
 sudo minikube dashboard & # -> on peut encore se servir du terminal tout en naviguant sur le dashboard
 # minikube addons enable dashboard
 
@@ -43,4 +44,16 @@ kubectl create secret generic -n metallb-system memberlist \
 # metallb-system/speaker : speaks the protocols to make the services reachable
 # Need to define and deploy a configmap ?
 
-# Need to clean Metallb
+# Need to clean Metallb ?
+
+# Build images for each services
+#docker build -t service_ftps srcs/ftps
+#docker build -t service_nginx srcs/nginx
+#docker build -t service_wordpress srcs/wordpress
+#docker build -t service_mysql srcs/mysql
+#docker build -t service_phpmyadmin srcs/phpmyadmin
+#docker build -t service_grafana srcs/grafana
+#docker build -t service_influxdb srcs/influxdb
+
+# Deploy services
+kubectl create -f ./srcs/
