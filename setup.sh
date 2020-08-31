@@ -57,4 +57,5 @@ docker build -t nginx_img srcs/nginx
 #docker build -t influxdb_img srcs/influxdb
 
 # Deploy services
-kubectl create -f ./srcs/nginx.yaml
+#kubectl create -f ./srcs/nginx.yaml
+kubectl delete deployments nginx-deployment; kubectl delete service nginx-service; kubectl create -f ./srcs/nginx.yaml

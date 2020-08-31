@@ -30,7 +30,7 @@ spec:
     metadata:
       labels:
         run: nginx-deployment
-     spec:
+    spec:
       volumes:
       - name: secret-volume
         secret:
