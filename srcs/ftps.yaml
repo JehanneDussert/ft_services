@@ -16,4 +16,4 @@ spec:
       - name: ftps
         image: ftps_img
         ports:
-        - containerPort: 443
+        - containerPort: 21

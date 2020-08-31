@@ -48,7 +48,7 @@ kubectl create secret generic -n metallb-system memberlist \
 
 # Build images for each services :
 
-#docker build -t nginx_img srcs/nginx
+docker build -t nginx_img srcs/nginx
 #docker build -t ftps_img srcs/ftps
 #docker build -t wordpress_img srcs/wordpress
 #docker build -t mysql_img srcs/mysql
