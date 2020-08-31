@@ -1,15 +1,21 @@
-# En gros c'est l'idee :
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: nginx-service
+  labels:
+    run: nginx-service
 spec:
+  type: NodePort
   ports:
-  - port: 80
+  - port: 8080
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    protocol: TCP
+    name: https
   selector:
-    app: nginx
-  clusterIP: None
+    run: nginx-service
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -18,19 +24,28 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: nginx
+      run: nginx-deployment
   replicas: 1
   template:
     metadata:
       labels:
-        app: nginx
-    spec:
+        run: nginx-deployment
+     spec:
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: nginxsecret
+      - name: configmap-volume
+        configMap:
+          name: nginxconfigmap
       containers:
-      - name: nginx
+      - name: nginxhttps
         image: nginx_img
         ports:
+        - containerPort: 443
         - containerPort: 80
-
-# La partie deployment est def,
-# il faut faire de meme pour le service
-# qui sera separee par ---
+        volumeMounts:
+        - mountPath: /etc/nginx/ssl
+          name: secret-volume
+        - mountPath: /etc/nginx/conf.d
+          name: configmap-volume
