@@ -1,3 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ftps-service
+  labels:
+    run: ftps-service
+spec:
+  type: NodePort #LoadBalancer
+  ports:
+  - port: 21
+    targetPort: 21
+    nodePort : 21
+    name: ftps
+  - port: 21000
+    targetPort : 21000
+    nodePort : 21000
+    name : my_ftps
+  selector:
+    run: ftps-service
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -5,15 +25,16 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: ftps
-  replicas: 1 # Nb de pods pour le service
+      run: ftps-deployment
+  replicas: 1
   template:
     metadata:
       labels:
-        app: ftps
+        run: ftps-deployment
     spec:
       containers:
-      - name: ftps
+      - name: ftps-deployment
         image: ftps_img
+        imagePullPolicy: Never
         ports:
         - containerPort: 21

@@ -46,7 +46,7 @@ kubectl create secret generic -n metallb-system memberlist \
 # Build images for each services :
 
 docker build -t nginx_img srcs/nginx
-#docker build -t ftps_img srcs/ftps
+docker build -t ftps_img srcs/ftps
 #docker build -t wordpress_img srcs/wordpress
 #docker build -t mysql_img srcs/mysql
 #docker build -t phpmyadmin_img srcs/phpmyadmin
@@ -56,3 +56,4 @@ docker build -t nginx_img srcs/nginx
 # Deploy services
 # kubectl create -f ./srcs/nginx.yaml
 kubectl delete deployments nginx-deployment; kubectl delete service nginx-service; kubectl create -f ./srcs/nginx.yaml
+kubectl delete deployments ftps-deployment; kubectl delete service ftps-service; kubectl create -f ./srcs/ftps.yaml
