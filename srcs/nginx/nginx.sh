@@ -1,3 +1,5 @@
 #!/usr/bin/env zsh
 
-service nginx start
+rc-service nginx start
+# boucle infinie a refaire
+tail -f /dev/null

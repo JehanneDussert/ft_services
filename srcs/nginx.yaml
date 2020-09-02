@@ -5,7 +5,7 @@ metadata:
   labels:
     run: nginx-service
 spec:
-  type: NodePort
+  type: NodePort #LoadBalancer
   ports:
   - port: 8080
     targetPort: 80
@@ -31,21 +31,10 @@ spec:
       labels:
         run: nginx-deployment
     spec:
-      volumes:
-      - name: secret-volume
-        secret:
-          secretName: nginxsecret
-      - name: configmap-volume
-        configMap:
-          name: nginxconfigmap
       containers:
-      - name: nginxhttps
+      - name: nginx-deployment
         image: nginx_img
+        imagePullPolicy: Never
         ports:
         - containerPort: 443
         - containerPort: 80
-        volumeMounts:
-        - mountPath: /etc/nginx/ssl
-          name: secret-volume
-        - mountPath: /etc/nginx/conf.d
-          name: configmap-volume

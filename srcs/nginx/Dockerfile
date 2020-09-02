@@ -29,5 +29,6 @@ COPY index.html /www/index.html
 
 COPY nginx.sh ./nginx.sh
 RUN chmod +x ./nginx.sh
+CMD sh ./nginx.sh
 
 EXPOSE 80 443
