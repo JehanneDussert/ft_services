@@ -7,7 +7,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 3306
+    - port: 5050
   selector:
     app: wordpress
     tier: mysql
@@ -32,6 +32,7 @@ metadata:
   labels:
     app: wordpress
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: wordpress
@@ -47,6 +48,7 @@ spec:
       containers:
       - image: mysql_img
         name: mysql
+        imagePullPolicy: Never
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -54,7 +56,7 @@ spec:
               name: mysql-pass
               key: password
         ports:
-        - containerPort: 3306
+        - containerPort: 5050
           name: mysql
         volumeMounts:
         - name: mysql-persistent-storage

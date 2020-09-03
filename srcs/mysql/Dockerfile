@@ -2,13 +2,13 @@ FROM alpine:3.12.0
 
 WORKDIR /tmp
 
-RUN apk update -y && apk upgrade -y
+RUN apk update && apk upgrade
 
 # Install wget
-RUN apk -y install wget
+RUN apk add wget
 
 # Installing MySQL packaging
-RUN apk -y install mariadb-server
+RUN apk add mariadb-dev
 
 COPY mysql.sh ./mysql.sh
 RUN chmod +x ./mysql.sh

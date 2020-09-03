@@ -48,7 +48,7 @@ kubectl delete -f ./srcs/metallb-conf.yaml; kubectl apply -f ./srcs/metallb-conf
 
 IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
 echo "IP : ${IP}"
-kubectl apply -k srcs/kustomization.yaml
+kubectl apply -k ./srcs/
 # Build images for each services :
 
 docker build -t nginx_img srcs/nginx
