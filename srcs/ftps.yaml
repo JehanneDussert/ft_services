@@ -1,38 +1,37 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ftps-service
+  name: ftps
   labels:
-    run: ftps-service
+    run: ftps
 spec:
-  type: NodePort #LoadBalancer
+  loadBalancerIP: 192.168.99.101
+  type: LoadBalancer
   selector:
-    run: ftps-service
+    run: ftps
   ports:
   - port: 21
     targetPort: 21
-    nodePort : 21
-    name: ftps-service
+    name: ftps
   - port: 21000
     targetPort : 21000
-    nodePort : 21000
     name : my-ftps
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ftps-deployment
+  name: ftps
 spec:
   selector:
     matchLabels:
-      run: ftps-deployment
+      run: ftps
   replicas: 1
   template:
     metadata:
       labels:
-        run: ftps-deployment
+        run: ftps
     spec:
       containers:
-      - name: ftps-deployment
+      - name: ftps
         image: ftps_img
         imagePullPolicy: Never

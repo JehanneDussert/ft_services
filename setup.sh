@@ -37,6 +37,7 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manife
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
 kubectl create secret generic -n metallb-system memberlist \
 --from-literal=secretkey="$(openssl rand -base64 128)"
+kubectl delete -f ./srcs/metallb-conf.yaml; kubectl apply -f ./srcs/metallb-conf.yaml
 # If you want to see your secret : kubectl get secrets
 # To use it : a pod has to reference the secret
 
@@ -45,10 +46,12 @@ kubectl create secret generic -n metallb-system memberlist \
 # metallb-system/speaker : speaks the protocols to make the services reachable
 # Need to clean Metallb ?
 
+IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
+echo "IP : ${IP}"
 # Build images for each services :
 
 docker build -t nginx_img srcs/nginx
-#docker build -t ftps_img srcs/ftps
+docker build -t ftps_img srcs/ftps
 #docker build -t wordpress_img srcs/wordpress
 #docker build -t mysql_img srcs/mysql
 #docker build -t phpmyadmin_img srcs/phpmyadmin
@@ -56,6 +59,5 @@ docker build -t nginx_img srcs/nginx
 #docker build -t influxdb_img srcs/influxdb
 
 # Deploy services
-# kubectl create -f ./srcs/nginx.yaml
-kubectl delete deployments nginx-deployment; kubectl delete service nginx-service; kubectl create -f ./srcs/nginx.yaml
-#kubectl delete deployments ftps-deployment; kubectl delete service ftps-service; kubectl create -f ./srcs/ftps.yaml
+kubectl delete deployments nginx; kubectl delete service nginx; kubectl create -f ./srcs/nginx.yaml
+kubectl delete deployments ftps; kubectl delete service ftps; kubectl create -f ./srcs/ftps.yaml
