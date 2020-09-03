@@ -5,12 +5,12 @@ metadata:
   labels:
     app: wordpress
 spec:
+  type: LoadBalancer
   ports:
     - port: 3306
   selector:
     app: wordpress
     tier: mysql
-  clusterIP: None
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

@@ -1,0 +1,9 @@
+cat <<EOF >./kustomization.yaml
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password=1234
+resources:
+	- mysql.yaml
+	- wordpress.yaml
+EOF

@@ -48,12 +48,13 @@ kubectl delete -f ./srcs/metallb-conf.yaml; kubectl apply -f ./srcs/metallb-conf
 
 IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
 echo "IP : ${IP}"
+kubectl apply -k srcs/kustomization.yaml
 # Build images for each services :
 
 docker build -t nginx_img srcs/nginx
 docker build -t ftps_img srcs/ftps
-#docker build -t wordpress_img srcs/wordpress
-#docker build -t mysql_img srcs/mysql
+docker build -t wordpress_img srcs/wordpress
+docker build -t mysql_img srcs/mysql
 #docker build -t phpmyadmin_img srcs/phpmyadmin
 #docker build -t grafana_img srcs/grafana
 #docker build -t influxdb_img srcs/influxdb
@@ -61,3 +62,5 @@ docker build -t ftps_img srcs/ftps
 # Deploy services
 kubectl delete deployments nginx; kubectl delete service nginx; kubectl create -f ./srcs/nginx.yaml
 kubectl delete deployments ftps; kubectl delete service ftps; kubectl create -f ./srcs/ftps.yaml
+kubectl delete deployments wordpress; kubectl delete service wordpress; kubectl create -f ./srcs/wordpress.yaml
+kubectl delete deployments wordpress-mysql; kubectl delete service wordpress-mysql; kubectl create -f ./srcs/mysql.yaml
