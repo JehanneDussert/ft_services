@@ -13,7 +13,7 @@ fi
 # sudo minikube start --extra-config=apiserver.GenericServerRunOptions.ServiceNodePortRange=1000-10000
 
 sudo chown -R user42 $HOME/.kube $HOME/.minikube
-# End minikube -> minikube delete
+# End minikube -> minssikube delete
 
 # Web dashboard opening to run the cluster
 echo "Opening dashboard..."
@@ -51,6 +51,7 @@ echo "IP : ${IP}"
 kubectl apply -k ./srcs/
 # Build images for each services :
 
+echo "Building images..."
 docker build -t nginx_img srcs/nginx
 docker build -t ftps_img srcs/ftps
 docker build -t wordpress_img srcs/wordpress
@@ -60,7 +61,8 @@ docker build -t mysql_img srcs/mysql
 #docker build -t influxdb_img srcs/influxdb
 
 # Deploy services
+echo "Building deployments and services..."
 kubectl delete deployments nginx; kubectl delete service nginx; kubectl create -f ./srcs/nginx.yaml
 kubectl delete deployments ftps; kubectl delete service ftps; kubectl create -f ./srcs/ftps.yaml
 kubectl delete deployments wordpress; kubectl delete service wordpress; kubectl create -f ./srcs/wordpress.yaml
-kubectl delete deployments wordpress-mysql; kubectl delete service wordpress-mysql; kubectl create -f ./srcs/mysql.yaml
+kubectl delete deployments mysql; kubectl delete service mysql; kubectl create -f ./srcs/mysql.yaml

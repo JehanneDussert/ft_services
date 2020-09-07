@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-ftps
+ftps # lancer le service correctement
 #rc-service ftps start
 #rc-update add vsftpd
 # boucle infinie a refaire
