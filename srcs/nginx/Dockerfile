@@ -15,7 +15,11 @@ RUN chown -R www:www /www
 RUN mkdir -p /run/nginx
 
 # Creating SSH user && SSL key
+# Faire une cle SSH en plus keygen
 RUN adduser -D user
+RUN user_pass =;
+RUN echo "${user}:${user_pass}" | chpasswd
+RUN ssh-keygen -A
 RUN apk add --no-cache openssl
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-subj "/C=FR/ST=75/L=Paris/O=42/CN=jdussert" \
@@ -31,4 +35,4 @@ COPY nginx.sh ./nginx.sh
 RUN chmod +x ./nginx.sh
 CMD sh ./nginx.sh
 
-EXPOSE 80 443
+EXPOSE 80 443 22
