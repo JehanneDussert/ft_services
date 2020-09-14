@@ -60,6 +60,7 @@ docker build -t mysql_img srcs/mysql
 #docker build -t grafana_img srcs/grafana
 #docker build -t influxdb_img srcs/influxdb
 
+#kubectl delete pvc mysql
 # Deploy services
 echo "Building deployments and services..."
 kubectl delete deployments nginx; kubectl delete service nginx; kubectl create -f ./srcs/nginx.yaml
