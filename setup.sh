@@ -19,7 +19,6 @@ sudo chown -R user42 $HOME/.kube $HOME/.minikube
 echo "Opening dashboard..."
 sudo minikube dashboard & # -> on peut encore se servir du terminal tout en naviguant sur le dashboard
 # minikube addons enable dashboard
-# Loadbalancer : ne fonctionne pas
 
 # see what changes would be made, returns nonzero returncode if different
 kubectl get configmap kube-proxy -n kube-system -o yaml | \
