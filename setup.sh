@@ -6,14 +6,15 @@ if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
 fi
 # Start minikube
 if ! kubectl version &>/dev/null; then
+	service nginx stop
 	sudo minikube start --driver=none
+	sudo chown -R user42 $HOME/.kube $HOME/.minikube
 	echo "Starting minikube..."
 fi
 
 # sudo minikube start --extra-config=apiserver.GenericServerRunOptions.ServiceNodePortRange=1000-10000
 
-sudo chown -R user42 $HOME/.kube $HOME/.minikube
-# End minikube -> minssikube delete
+# End minikube -> minikube delete
 
 # Web dashboard opening to run the cluster
 echo "Opening dashboard..."

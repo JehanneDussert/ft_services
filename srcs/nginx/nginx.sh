@@ -1,12 +1,13 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
 
 export user=username;
 export user_pass=;
 
 adduser -D ${user};
-echo "user:user_pass" | chpasswd
+echo "$user:$user_pass" | chpasswd
 ssh-keygen -A
-nginx -g "daemon off;"
+supervisord
+#nginx -g "daemon off;"
 #rc-service nginx start
 # boucle infinie a refaire
 tail -f /dev/null
