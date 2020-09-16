@@ -55,8 +55,8 @@ kubectl apply -k ./srcs/
 echo "Building images..."
 docker build -t nginx_img srcs/nginx
 docker build -t ftps_img srcs/ftps
-docker build -t wordpress_img srcs/wordpress
-docker build -t mysql_img srcs/mysql
+#docker build -t wordpress_img srcs/wordpress
+#docker build -t mysql_img srcs/mysql
 #docker build -t phpmyadmin_img srcs/phpmyadmin
 #docker build -t grafana_img srcs/grafana
 #docker build -t influxdb_img srcs/influxdb
@@ -65,6 +65,12 @@ docker build -t mysql_img srcs/mysql
 # Deploy services
 echo "Building deployments and services..."
 kubectl delete deployments nginx; kubectl delete service nginx; kubectl create -f ./srcs/nginx.yaml
-kubectl delete deployments ftps; kubectl delete service ftps; kubectl create -f ./srcs/ftps.yaml
-kubectl delete deployments wordpress; kubectl delete service wordpress; kubectl create -f ./srcs/wordpress.yaml
-kubectl delete deployments mysql; kubectl delete service mysql; kubectl create -f ./srcs/mysql.yaml
+
+kubectl patch pvc ftps-pv-claim -p '{"metadata":{"finalizers": []}}' --type=merge
+kubectl delete pvc ftps-pv-claim
+kubectl delete pv ftps-pv-volume
+kubectl delete statefulset ftps
+kubectl delete service ftps
+kubectl create -f ./srcs/ftps.yaml
+#kubectl delete deployments wordpress; kubectl delete service wordpress; kubectl create -f ./srcs/wordpress.yaml
+#kubectl delete deployments mysql; kubectl delete service mysql; kubectl create -f ./srcs/mysql.yaml

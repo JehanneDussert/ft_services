@@ -1,4 +1,31 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ftps-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/tmp/k8s_pvc/ftps"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ftps-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: ftps
@@ -17,43 +44,18 @@ spec:
     targetPort : 30000
     name : my-ftps
 ---
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: ftps-pv-volume
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 2Gi
-  accessModes:
-  - ReadWriteOnce
-  hostPath:
-    path: "/tmp/k8s_pvc/ftps"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: ftps
   labels:
     run: ftps
 spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ftps
-spec:
+  serviceName: ftps
+  replicas: 1
   selector:
     matchLabels:
       run: ftps
-  replicas: 1
   template:
     metadata:
       labels:
@@ -67,10 +69,10 @@ spec:
         - containerPort: 21
         - containerPort: 30000
         volumeMounts:
-        - name: ftps
-          mountPath: /mnt/ftp
-        volumes:
-        - name: ftps
-          persistentVolumeClaim:
-            claimName: ftps
+        - mountPath: /mnt/ftp
+          name: ftps-pv-storage
+      volumes:
+      - name: ftps-pv-storage
+        persistentVolumeClaim:
+          claimName: ftps-pv-claim
     

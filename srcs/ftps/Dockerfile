@@ -20,6 +20,9 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 COPY vsftpd.conf /etc/ftps/vsftpd.conf
 COPY ./supervisord.conf /etc/supervisord.conf
 
+RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+
 EXPOSE 21 30000
 
 VOLUME /mnt/ftps-data
