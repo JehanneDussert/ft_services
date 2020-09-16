@@ -10,12 +10,6 @@ RUN rc-update add sshd
 
 RUN mkdir -p /run/nginx/
 
-# Creating user and home director for nginx server
-#RUN adduser -D -g 'www' www
-#RUN mkdir /www
-#RUN chown -R www:www /var/lib/nginx
-#RUN chown -R www:www /www
-
 COPY nginx.conf /etc/nginx/
 COPY index.html /var/www/localhost/htdocs/index.html
 COPY ./sshd_config /etc/ssh/
@@ -36,5 +30,4 @@ EXPOSE 80 443 22
 
 COPY ./nginx.sh .
 RUN chmod +x ./nginx.sh
-#CMD sh ./nginx.sh
 ENTRYPOINT ./nginx.sh

@@ -24,7 +24,7 @@ function kre () {
 function watch_services () { watch kubectl get all --all-namespaces }
 
 function sshnginx () { rm -f ${HOME}/.ssh/known_hosts &&
-	nginx_url=$(kubectl describe service/nginx-service | grep IPAllocated | cut -d "\"" -f 2) &&
+	nginx_url=$(kubectl describe service/nginx | grep IPAllocated | cut -d "\"" -f 2) &&
 	echo "\e[93mNo password needed 👀\e[0m" && ssh username@${nginx_url} -p 22
 }
 
