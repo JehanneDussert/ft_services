@@ -35,6 +35,7 @@ kubectl apply -f - -n kube-system
 echo "Installing MetalLB..."
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+# kubectl delete secrets memberlist
 kubectl create secret generic -n metallb-system memberlist \
 --from-literal=secretkey="$(openssl rand -base64 128)"
 kubectl delete -f ./srcs/metallb-conf.yaml; kubectl apply -f ./srcs/metallb-conf.yaml

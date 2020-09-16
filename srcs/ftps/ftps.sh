@@ -5,3 +5,4 @@ ftps # lancer le service correctement
 #rc-update add vsftpd
 # boucle infinie a refaire
 tail -f /dev/null
+supervisord

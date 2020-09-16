@@ -5,7 +5,7 @@ metadata:
   labels:
     run: ftps
 spec:
-  #loadBalancerIP: 192.168.99.101
+  loadBalancerIP: 192.168.99.101
   type: LoadBalancer
   selector:
     run: ftps
@@ -13,9 +13,37 @@ spec:
   - port: 21
     targetPort: 21
     name: ftps
-  - port: 21000
-    targetPort : 21000
+  - port: 30000
+    targetPort : 30000
     name : my-ftps
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ftps-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/tmp/k8s_pvc/ftps"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ftps
+  labels:
+    run: ftps
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -35,3 +63,14 @@ spec:
       - name: ftps
         image: ftps_img
         imagePullPolicy: Never
+        ports:
+        - containerPort: 21
+        - containerPort: 30000
+        volumeMounts:
+        - name: ftps
+          mountPath: /mnt/ftp
+        volumes:
+        - name: ftps
+          persistentVolumeClaim:
+            claimName: ftps
+    
