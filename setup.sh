@@ -66,11 +66,12 @@ docker build -t ftps_img srcs/ftps
 echo "Building deployments and services..."
 kubectl delete deployments nginx; kubectl delete service nginx; kubectl create -f ./srcs/nginx.yaml
 
+
+kubectl delete statefulset ftps
+kubectl delete service ftps
 kubectl patch pvc ftps-pv-claim -p '{"metadata":{"finalizers": []}}' --type=merge
 kubectl delete pvc ftps-pv-claim
 kubectl delete pv ftps-pv-volume
-kubectl delete statefulset ftps
-kubectl delete service ftps
 kubectl create -f ./srcs/ftps.yaml
 #kubectl delete deployments wordpress; kubectl delete service wordpress; kubectl create -f ./srcs/wordpress.yaml
 #kubectl delete deployments mysql; kubectl delete service mysql; kubectl create -f ./srcs/mysql.yaml
