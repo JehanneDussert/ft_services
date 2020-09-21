@@ -7,11 +7,6 @@ RUN apk update
 RUN apk add openssl vsftpd
 #RUN apk add openrc --no-cache
 
-# Creating directory
-#RUN mkdir /srv/ftps
-#RUN chown -R nobody.nogroup /srv/ftps
-#RUN echo "jdussert" > /srv/ftps/user.txt
-
 COPY ./vsftpd.conf /etc/vsftpd/
 COPY ./supervisord.conf /etc/supervisord.conf
 COPY ./ftps-selfsigned.conf /etc/ftps/

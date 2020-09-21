@@ -39,8 +39,10 @@ spec:
   ports:
   - name: ftps
     port: 21
+    protocol: TCP
   - name: my-ftps
     port: 30000
+    protocol: TCP
 ---
 apiVersion: apps/v1
 kind: StatefulSet
