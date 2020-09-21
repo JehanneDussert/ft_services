@@ -9,18 +9,31 @@ spec:
   ports:
   - port: 5050
     targetPort: 5050
-    protocol: TCP
-    name: http
+    name: wordpress
   selector:
     app: wordpress
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pv-claim
+  labels:
+    app: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: wordpress
   labels:
     app: wordpress
 spec:
+  serviceName: wordpress
   replicas: 1
   selector:
     matchLabels:
@@ -33,6 +46,36 @@ spec:
       containers:
       - name: wordpress
         image: wordpress_img
+        imagePullPolicy: Never
+        env:
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: password
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: host
         ports:
         - containerPort: 5050
-        imagePullPolicy: Never
+          name: wordpress
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: "/var/www/html"
+        volumes:
+        - name: wordpress-persistent-storage
+          persistentVolumeClaim:
+            claimName: wp-pv-claim
+      

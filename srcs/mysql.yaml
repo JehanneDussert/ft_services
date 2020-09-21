@@ -16,7 +16,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql
+  name: mysql-pv-claim
   labels:
     run: mysql
 spec:
@@ -27,12 +27,14 @@ spec:
       storage: 2Gi
 ---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mysql
   labels:
     run: mysql
 spec:
+  serviceName: mysql
+  replicas: 1
   selector:
     matchLabels:
       run: mysql
@@ -45,13 +47,34 @@ spec:
       - name: mysql
         image: mysql_img
         imagePullPolicy: Never
+        env:
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: password
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: host
         ports:
         - containerPort: 3306
           name: mysql
         volumeMounts:
         - name: mysql
-          mountPath: /var/lib/mysql
+          mountPath: "/var/lib/mysql"
       volumes:
       - name: mysql
         persistentVolumeClaim:
-          claimName: mysql
+          claimName: mysql-pv-claim
