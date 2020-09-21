@@ -12,7 +12,7 @@ RUN apk add openssl vsftpd
 #RUN chown -R nobody.nogroup /srv/ftps
 #RUN echo "jdussert" > /srv/ftps/user.txt
 
-COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
+COPY ./vsftpd.conf /etc/vsftpd/
 COPY ./supervisord.conf /etc/supervisord.conf
 COPY ./ftps-selfsigned.conf /etc/ftps/
 

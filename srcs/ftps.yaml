@@ -37,12 +37,10 @@ spec:
   selector:
     run: ftps
   ports:
-  - port: 21
-    targetPort: 21
-    name: ftps
-  - port: 30000
-    targetPort : 30000
-    name : my-ftps
+  - name: ftps
+    port: 21
+  - name: my-ftps
+    port: 30000
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -69,7 +67,7 @@ spec:
         - containerPort: 21
         - containerPort: 30000
         volumeMounts:
-        - mountPath: /mnt/ftp
+        - mountPath: "/mnt/ftp"
           name: ftps-pv-storage
       volumes:
       - name: ftps-pv-storage
