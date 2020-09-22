@@ -9,6 +9,9 @@ RUN apk add mariadb mariadb-common mariadb-client openrc --no-cache
 
 COPY ./supervisord.conf /etc/
 
+RUN rmdir /var/lib/mysql/
+RUN mkdir -p /var/log/supervisor/
+
 EXPOSE 3306
 
 COPY mysql.sh ./mysql.sh

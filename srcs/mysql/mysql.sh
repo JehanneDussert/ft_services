@@ -1,4 +1,7 @@
-mysql
+mysql_install_db --datadir=/var/lib/nysql
+
+mysqld
+
 mysql -e "
 CREATE DATABASE ${DB_NAME};
 CREATE USER ${DB_USER} IDENTIFIED BY '${DB_PASSWORD}';

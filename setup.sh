@@ -6,6 +6,7 @@ kubectl delete --all pods
 kubectl delete --all statefulset
 kubectl delete --all pvc
 kubectl delete --all pv
+kubectl delete --all secret
 #kubectl delete --all nodes
 #kubectl delete --all namespaces
 
@@ -60,6 +61,13 @@ docker build -t mysql_img srcs/mysql
 #docker build -t phpmyadmin_img srcs/phpmyadmin
 #docker build -t grafana_img srcs/grafana
 #docker build -t influxdb_img srcs/influxdb
+
+echo "Building my new secret..."
+kubectl create secret generic db-id \
+	--from-literal=name=${DB_NAME} \
+	--from-literal=user=${DB_USER} \
+	--from-literal=password=${DB_PASSWORD} \
+	--from-literal=host=${DB_HOST}
 
 # Deploy services
 echo "Building deployments and services..."
