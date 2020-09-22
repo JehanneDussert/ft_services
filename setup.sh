@@ -1,5 +1,14 @@
 #!/usr/bin/env zsh
 
+kubectl delete --all deployment
+kubectl delete --all svc
+kubectl delete --all pods
+kubectl delete --all statefulset
+kubectl delete --all pvc
+kubectl delete --all pv
+#kubectl delete --all nodes
+#kubectl delete --all namespaces
+
 # which donne le chemin du binaire
 if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
 	sudo apt-get install -y conntrack
@@ -11,10 +20,6 @@ if ! kubectl version &>/dev/null; then
 	sudo chown -R user42 $HOME/.kube $HOME/.minikube
 	echo "Starting minikube..."
 fi
-
-# sudo minikube start --extra-config=apiserver.GenericServerRunOptions.ServiceNodePortRange=1000-10000
-
-# End minikube -> minikube delete
 
 # Web dashboard opening to run the cluster
 echo "Opening dashboard..."
@@ -42,36 +47,23 @@ kubectl delete -f ./srcs/metallb-conf.yaml; kubectl apply -f ./srcs/metallb-conf
 # If you want to see your secret : kubectl get secrets
 # To use it : a pod has to reference the secret
 
-# In metallb system : 
-# metallb-system/controller : cluster-wide controller that handles IP address assignments
-# metallb-system/speaker : speaks the protocols to make the services reachable
-# Need to clean Metallb ?
-
 IP=$(kubectl get node -o=custom-columns='DATA:status.addresses[0].address' | sed -n 2p)
 echo "IP : ${IP}"
 kubectl apply -k ./srcs/
-# Build images for each services :
 
+# Build images for each services :
 echo "Building images..."
 docker build -t nginx_img srcs/nginx
 docker build -t ftps_img srcs/ftps
+docker build -t mysql_img srcs/mysql
 #docker build -t wordpress_img srcs/wordpress
-#docker build -t mysql_img srcs/mysql
 #docker build -t phpmyadmin_img srcs/phpmyadmin
 #docker build -t grafana_img srcs/grafana
 #docker build -t influxdb_img srcs/influxdb
 
-#kubectl delete pvc mysql
 # Deploy services
 echo "Building deployments and services..."
-kubectl delete deployments nginx; kubectl delete service nginx; kubectl create -f ./srcs/nginx.yaml
-
-
-kubectl delete statefulset ftps
-kubectl delete service ftps
-kubectl patch pvc ftps-pv-claim -p '{"metadata":{"finalizers": []}}' --type=merge
-kubectl delete pvc ftps-pv-claim
-kubectl delete pv ftps-pv-volume
+kubectl create -f ./srcs/nginx.yaml
 kubectl create -f ./srcs/ftps.yaml
-#kubectl delete deployments wordpress; kubectl delete service wordpress; kubectl create -f ./srcs/wordpress.yaml
-#kubectl delete deployments mysql; kubectl delete service mysql; kubectl create -f ./srcs/mysql.yaml
+kubectl create -f ./srcs/mysql.yaml
+#kubectl create -f ./srcs/wordpress.yaml

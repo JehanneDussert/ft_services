@@ -1,7 +1,9 @@
 mysql
 mysql -e "
-CREATE DATABASE wordpress;
-CREATE USER 'wordpress_user'@'localhost' IDENTIFIED BY '1234';
-GRANT ALL ON wordpress.* TO 'wordpress_user'@'localhost' IDENTIFIED BY '1234' WITH GRANT OPTION;
+CREATE DATABASE ${DB_NAME};
+CREATE USER ${DB_USER} IDENTIFIED BY '${DB_PASSWORD}';
+GRANT ALL ON ${DB_NAME}.* TO ${DB_USER} IDENTIFIED BY '${DB_PASSWORD}' WITH GRANT OPTION;
 FLUSH PRIVILEGES;"
-tail -f /dev/null
+
+supervisord
+#tail -f /dev/null

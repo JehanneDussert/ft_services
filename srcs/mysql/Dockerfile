@@ -3,15 +3,14 @@ FROM alpine:3.12.0
 WORKDIR /tmp
 
 RUN apk update && apk upgrade
+RUN apk add mariadb mariadb-common mariadb-client openrc --no-cache
 
-# Install wget
-#RUN apk add wget
+#RUN apk add mariadb-dev
 
-# Installing MySQL packaging
-RUN apk add mariadb-dev
+COPY ./supervisord.conf /etc/
+
+EXPOSE 3306
 
 COPY mysql.sh ./mysql.sh
 RUN chmod +x ./mysql.sh
-CMD sh ./mysql.sh
-
-EXPOSE 3306
+ENTRYPOINT ./mysql.sh
