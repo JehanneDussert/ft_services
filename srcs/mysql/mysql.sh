@@ -1,4 +1,5 @@
 mysql_install_db --datadir=/var/lib/nysql
+mysql --default-authentication-plugin=mysql_native_password
 
 mysqld
 
