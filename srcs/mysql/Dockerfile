@@ -8,6 +8,7 @@ RUN apk add mariadb mariadb-common mariadb-client openrc --no-cache
 #RUN apk add mariadb-dev
 
 COPY ./supervisord.conf /etc/
+COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
 
 RUN rmdir /var/lib/mysql/
 RUN mkdir -p /var/log/supervisor/
