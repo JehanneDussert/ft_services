@@ -19,16 +19,16 @@
 
 // ** Réglages MySQL - Votre hébergeur doit vous fournir ces informations. ** //
 /** Nom de la base de données de WordPress. */
-define('DB_NAME', 'wordpress');
+define( 'DB_NAME', '__DB_NAME__' );
 
-/** Utilisateur de la base de données MySQL. */
-define('DB_USER', 'wordpress_user');
+/** MySQL database username */
+define( 'DB_USER', '__DB_USER__' );
 
-/** Mot de passe de la base de données MySQL. */
-define('mysql-pass', '1234');
+/** MySQL database password */
+define( 'DB_PASSWORD', '__DB_PASSWORD__' );
 
-/** Adresse de l’hébergement MySQL. */
-define('DB_HOST', 'localhost');
+/** MySQL hostname */
+define( 'DB_HOST', '__DB_HOST__' );
 
 /** Jeu de caractères à utiliser par la base de données lors de la création des tables. */
 define('DB_CHARSET', 'utf8');
@@ -49,14 +49,14 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         'rrG9}Ju_>]UdXU:5RW)6(%[+L^mkt:, rhFs.E|xd_&|_n@$H5,5OpF>h>cm~j< ');
-define('SECURE_AUTH_KEY',  '{S|8+va<d;YJZy$9H.N=L|PrJI&wy&{ev<[TpZ-wB?%h:#|giJqevMC B-3%X8dn');
-define('LOGGED_IN_KEY',    'p5gBF&V8[,(3m`+hV9,yb|0+6v-<#4;#R8`F*}>P)>QA!T-|3+uq`o?nFFuQjz| ');
-define('NONCE_KEY',        '+40% GnK-:q,~{hD);H+F-DI7|1+^3_P|ks:V:8RYMLM|8j8GA*kj%G{/iya.i={');
-define('AUTH_SALT',        '[54TOc:dJQ]i~!#%8}eR4eizNT9Z~/%ujw IX-eCAMc9M86dC^G9.]+3XF{Cdq]B');
-define('SECURE_AUTH_SALT', 'YHwp*[yAhToN|j5@,3O.oq:iN|:D) `RUxo+SOIn3Ii(xWZI/CT^kS~TzV3||}Y-');
-define('LOGGED_IN_SALT',   'nVnViAMW08M}Sp9WSc]v^PN5f6DlV.=n.!~Y#z|ID|W}7n6aVB2z`&%VZGHfp{cW');
-define('NONCE_SALT',       'Cd+q)<e+ddFtyF&%^R9U+jUnl/;=1CuvR,#5$|lSL9|Vh$/sAM}lsDp.|W1Cl-p{');
+define( 'AUTH_KEY',         'put your unique phrase here' );
+define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
+define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
+define( 'NONCE_KEY',        'put your unique phrase here' );
+define( 'AUTH_SALT',        'put your unique phrase here' );
+define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
+define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
+define( 'NONCE_SALT',       'put your unique phrase here' );
 /**#@-*/
 
 /**
@@ -82,13 +82,13 @@ $table_prefix = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
 
 /* C’est tout, ne touchez pas à ce qui suit ! Bonne publication. */
 
 /** Chemin absolu vers le dossier de WordPress. */
 if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__FILE__) . '/');
+	define('ABSPATH', dirname(__DIR__) . '/');
 
 /** Réglage des variables de WordPress et de ses fichiers inclus. */
 require_once(ABSPATH . 'wp-settings.php');
