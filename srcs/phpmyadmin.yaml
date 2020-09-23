@@ -1,19 +1,60 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: phpmyadmin-deployment
+  name: phpmyadmin
+  labels:
+    run: phpmyadmin
 spec:
+  type: LoadBalancer
+  ports:
+    - name: phpmyadmin
+      port: 5000
+      targetPort: 5000
+  selector:
+    run: phpmyadmin
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: phpmyadmin
+  labels:
+    run: phpmyadmin
+spec:
+  serviceName: phpmyadmin
+  replicas: 1
   selector:
     matchLabels:
-      app: phpmyadmin
-  replicas: 1 # Nb de pods pour le service
+      run: phpmyadmin
   template:
     metadata:
       labels:
-        app: phpmyadmin
+        run: phpmyadmin
     spec:
       containers:
       - name: phpmyadmin
         image: phpmyadmin_img
+        imagePullPolicy: Never
+        env:
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: password
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: host
         ports:
         - containerPort: 5000
+          name: phpmyadmin
