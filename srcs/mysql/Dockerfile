@@ -9,6 +9,8 @@ RUN apk add mariadb mariadb-common mariadb-client openrc --no-cache
 
 COPY ./supervisord.conf /etc/
 COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
+# COPY ./users.sql .
+# COPY ./wordpress.sql .
 
 RUN rmdir /var/lib/mysql/
 RUN mkdir -p /var/log/supervisor/

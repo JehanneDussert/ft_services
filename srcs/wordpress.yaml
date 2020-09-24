@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: wordpress
   labels:
-    app: wordpress
+    run: wordpress
 spec:
   type: LoadBalancer
   ports:
@@ -11,14 +11,14 @@ spec:
     targetPort: 5050
     name: wordpress
   selector:
-    app: wordpress
+    run: wordpress
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: wp-pv-claim
   labels:
-    app: wordpress
+    run: wordpress
 spec:
   accessModes:
     - ReadWriteOnce
@@ -31,17 +31,17 @@ kind: StatefulSet
 metadata:
   name: wordpress
   labels:
-    app: wordpress
+    run: wordpress
 spec:
   serviceName: wordpress
   replicas: 1
   selector:
     matchLabels:
-      app: wordpress
+      run: wordpress
   template:
     metadata:
       labels:
-        app: wordpress
+        run: wordpress
     spec:
       containers:
       - name: wordpress
@@ -73,7 +73,7 @@ spec:
           name: wordpress
         volumeMounts:
         - name: wordpress-persistent-storage
-          mountPath: "/var/www/html"
+          mountPath: /var/www/html
       volumes:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:

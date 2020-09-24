@@ -26,7 +26,7 @@ spec:
     requests:
       storage: 2Gi
 ---
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+apiVersion: apps/v1 # for versions before 1.9.0 use runs/v1beta2
 kind: StatefulSet
 metadata:
   name: mysql
@@ -73,7 +73,7 @@ spec:
           name: mysql
         volumeMounts:
         - name: mysql
-          mountPath: "/var/lib/mysql"
+          mountPath: /var/lib/mysql
       volumes:
       - name: mysql
         persistentVolumeClaim:

@@ -1,5 +1,6 @@
 #!/usr/bin/env zsh
 
+#rm -rf /var/www/html/wordpress/
 kubectl delete --all deployment
 kubectl delete --all svc
 kubectl delete --all pods
@@ -7,6 +8,7 @@ kubectl delete --all statefulset
 kubectl delete --all pvc
 kubectl delete --all pv
 kubectl delete --all secret
+rm -rf /tmp/k8s_pvc/
 #kubectl delete --all nodes
 #kubectl delete --all namespaces
 
@@ -64,10 +66,10 @@ docker build -t wordpress_img srcs/wordpress
 
 echo "Building my new secret..."
 kubectl create secret generic db-id \
-	--from-literal=name=${DB_NAME} \
-	--from-literal=user=${DB_USER} \
-	--from-literal=password=${DB_PASSWORD} \
-	--from-literal=host=${DB_HOST}
+	--from-literal=name=wordpress \
+	--from-literal=user=wp_user \
+	--from-literal=password=wp_pass \
+	--from-literal=host=mysql
 
 # Deploy services
 echo "Building deployments and services..."
