@@ -1,7 +1,7 @@
 mysql_install_db --datadir=/var/lib/mysql
 mysql --default-authentication-plugin=mysql_native_password
 
-mysqld
+#mysqld
 
 mysql -e "
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};

@@ -24,7 +24,7 @@ RUN wget http://files.directadmin.com/services/all/phpMyAdmin/${VERSION}.tar.gz 
 
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./supervisord.conf /etc/supervisord.conf
 COPY ./phpma_config.php /var/wwww/phpmyadmin/config.sample.inc.php
 

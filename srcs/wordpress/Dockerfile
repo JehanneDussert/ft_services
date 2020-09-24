@@ -25,8 +25,9 @@ RUN wget https://wordpress.org/${WP_FILE} && \
 
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl
 
-COPY ./nginx.conf /etc/nginx/
+COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./wordpress_config.php /var/www/wordpress/wp-config.php
+COPY ./supervisord.conf /etc/
 # RUN chown -R www-data:www-data /var/www/html/wordpress/
 
 EXPOSE 5050
