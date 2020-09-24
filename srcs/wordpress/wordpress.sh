@@ -14,6 +14,6 @@ mv /var/www/wordpress/ /var/www/html
 #if [ ! -d var/www/html/ ]; then
 #	mv /var/www/wordpress /var/www/html/
 #fi
-tail -f /dev/null
+#tail -f /dev/null
 
 supervisord

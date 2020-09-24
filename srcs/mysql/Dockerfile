@@ -14,6 +14,10 @@ COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
 
 RUN rmdir /var/lib/mysql/
 RUN mkdir -p /var/log/supervisor/
+RUN mkdir -p /var/log/mysql/
+
+RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 EXPOSE 3306
 

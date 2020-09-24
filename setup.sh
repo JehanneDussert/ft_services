@@ -69,7 +69,7 @@ kubectl create secret generic db-id \
 	--from-literal=name=wordpress \
 	--from-literal=user=wp_user \
 	--from-literal=password=wp_pass \
-	--from-literal=host=mysql
+	--from-literal=host=mysql_user
 
 # Deploy services
 echo "Building deployments and services..."
