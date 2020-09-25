@@ -64,19 +64,12 @@ docker build -t wordpress_img srcs/wordpress
 #docker build -t grafana_img srcs/grafana
 #docker build -t influxdb_img srcs/influxdb
 
-DB_NAME=wordpress; DB_USER=wpuser; DB_PASSWORD=password; DB_HOST=mysql;
-
 echo "Building my new secret..."
 kubectl create secret generic db-id \
-	--from-literal=name=${DB_NAME} \
-	--from-literal=user=${DB_USER} \
-	--from-literal=password=${DB_PASSWORD} \
-	--from-literal=host=${DB_HOST}
-#kubectl create secret generic db-id \
-#	--from-literal=name=wordpress \
-#	--from-literal=user=wp_user \
-#	--from-literal=password=wp_pass \
-#	--from-literal=host=mysql_user
+	--from-literal=name=wp \
+	--from-literal=user=wp_user \
+	--from-literal=password=wp_password \
+	--from-literal=host=mysql_host
 
 # Deploy services
 echo "Building deployments and services..."

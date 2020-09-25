@@ -1,10 +1,13 @@
+#!/bin/sh
+
 mysql_install_db --datadir=/var/lib/mysql
-mysql --default-authentication-plugin=mysql_native_password
-
+sleep 5
+#mysql --default-authentication-plugin=mysql_native_password
+sleep 5
 #mysqld
-
-mysql -e "
-CREATE DATABASE IF NOT EXISTS ${DB_NAME};
+tmpsql="/tmp/init_sql"
+echo > $tmpsql \
+"CREATE DATABASE IF NOT EXISTS ${DB_NAME};
 CREATE USER IF NOT EXISTS ${DB_USER} IDENTIFIED BY '${DB_PASSWORD}';
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
 FLUSH PRIVILEGES;
@@ -14,6 +17,7 @@ GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PAS
 GRANT ALL PRIVILEGES ON *.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}' WITH GRANT OPTION;
 FLUSH PRIVILEGES;"
+rm -rf $tmpsql
 /usr/share/mariadb/mysql.server stop
 #tail -f /dev/null
 supervisord
