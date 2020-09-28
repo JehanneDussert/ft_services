@@ -7,9 +7,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 5050
+  - name: wordpress
+    port: 5050
     targetPort: 5050
-    name: wordpress
   selector:
     run: wordpress
 ---
