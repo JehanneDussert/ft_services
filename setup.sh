@@ -65,7 +65,7 @@ docker build -t wordpress_img srcs/wordpress
 #docker build -t influxdb_img srcs/influxdb
 
 
-DB_NAME=wp; DB_USER=wp_user; DB_PASSWORD=pass; DB_HOST=mysql_host;
+DB_NAME=wp; DB_USER=wp_user; DB_PASSWORD=password; DB_HOST=mysql_host;
 
 echo "Building my new secret..."
 kubectl create secret generic db-id \

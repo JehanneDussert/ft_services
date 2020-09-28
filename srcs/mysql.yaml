@@ -5,7 +5,7 @@ metadata:
   labels:
     run: mysql
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 3306
     protocol: TCP
