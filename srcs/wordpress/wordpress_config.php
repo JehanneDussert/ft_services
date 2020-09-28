@@ -88,7 +88,7 @@ define('WP_DEBUG', true);
 
 /** Chemin absolu vers le dossier de WordPress. */
 if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__DIR__) . '/');
+	define('ABSPATH', __DIR__ . '/');
 
 /** Réglage des variables de WordPress et de ses fichiers inclus. */
 require_once(ABSPATH . 'wp-settings.php');

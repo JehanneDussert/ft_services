@@ -2,7 +2,7 @@
 
 mysql_install_db --datadir=/var/lib/mysql
 sleep 5
-#mysql --default-authentication-plugin=mysql_native_password
+mysql --default-authentication-plugin=mysql_native_password
 sleep 5
 #mysqld
 tmpsql="/tmp/init_sql"
