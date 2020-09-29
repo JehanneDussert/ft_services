@@ -1,7 +1,9 @@
 #!/bin/sh
 
-mysql_install_db --datadir=/var/lib/mysql
+mysql_install_db --ldata=/var/lib/mysql
+sleep 2
 mysqld --default-authentication-plugin=mysql_native_password &
+sleep 2
 #mysqld
 tmpsql="/tmp/init_sql"
 echo > $tmpsql \
@@ -15,7 +17,16 @@ GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PAS
 GRANT ALL PRIVILEGES ON *.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}' WITH GRANT OPTION;
 FLUSH PRIVILEGES;"
-rm -rf $tmpsql
+
+if [ ! -f /var/lib/mysql/wpNewUsers ]; then
+	echo "done" >> /var/lib/mysql/wpNewUsers
+	mysql -h localhost -e "$(cat $tmpsql)"
+	mysql -h localhost -e "$(cat ./wordpress.sql)"
+	mysql -h localhost -e "$(cat ./new_users.sql)"
+fi
+
+rm -f $tmpsql
+
 /usr/share/mariadb/mysql.server stop
-#tail -f /dev/null
+
 supervisord
