@@ -20,14 +20,10 @@ fi
 if ! kubectl version &>/dev/null; then
 	service nginx stop
 	sudo minikube start --driver=none
-	sudo chown -R user42 $HOME/.kube $HOME/.minikube
 	echo "Starting minikube..."
 fi
 
-# Web dashboard opening to run the cluster
-echo "Opening dashboard..."
-sudo minikube dashboard & # -> on peut encore se servir du terminal tout en naviguant sur le dashboard
-# minikube addons enable dashboard
+sudo chown -R user42 $HOME/.kube $HOME/.minikube
 
 # see what changes would be made, returns nonzero returncode if different
 kubectl get configmap kube-proxy -n kube-system -o yaml | \
@@ -81,3 +77,6 @@ kubectl create -f ./srcs/ftps.yaml
 kubectl create -f ./srcs/mysql.yaml
 kubectl create -f ./srcs/phpmyadmin.yaml
 kubectl create -f ./srcs/wordpress.yaml
+
+echo "Opening dashboard..."
+sudo minikube dashboard
