@@ -2,7 +2,7 @@ FROM alpine:3.12.0
 
 WORKDIR /tmp/
 
-RUN apk update && apk install influxdb
+RUN apk update && apk add influxdb
 
 RUN mkdir -p /etc/influxdb/
 RUN mkdir -p /var/log/supervisor/

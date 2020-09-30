@@ -63,12 +63,16 @@ docker build -t influxdb_img srcs/influxdb
 
 DB_NAME=wordpress; DB_USER=wp_user; DB_PASSWORD=password; DB_HOST=mysql;
 
-echo "Building my new secret..."
+echo "Building my new secrets..."
 kubectl create secret generic db-id \
 	--from-literal=name=${DB_NAME} \
 	--from-literal=user=${DB_USER} \
 	--from-literal=password=${DB_PASSWORD} \
 	--from-literal=host=${DB_HOST}
+
+kubectl create secret generic jdussert \
+	--from-literal=user="jdussert" \
+	--from-literal=password="pass"	
 
 # Deploy services
 echo "Building deployments and services..."

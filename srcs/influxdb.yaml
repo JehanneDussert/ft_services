@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: influxdb
   labels:
-    app: influxdb
+    run: influxdb
 spec:
   type: ClusterIP
   ports:
@@ -11,14 +11,14 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: influxdb
+    run: influxdb
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: influxdb-pv-claim
   labels:
-    app: ft_services
+    run: influxdb
 spec:
   accessModes:
     - ReadWriteOnce
@@ -31,17 +31,17 @@ kind: StatefulSet
 metadata:
   name: influxdb
   labels:
-    app: influxdb
+    run: influxdb
 spec:
   serviceName: influxdb
   replicas: 1
   selector:
     matchLabels:
-      app: influxdb
+      run: influxdb
   template:
     metadata:
       labels:
-        app: influxdb
+        run: influxdb
     spec:
       containers:
       - name: influxdb
