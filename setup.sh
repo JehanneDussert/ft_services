@@ -57,8 +57,8 @@ docker build -t ftps_img srcs/ftps
 docker build -t mysql_img srcs/mysql
 docker build -t phpmyadmin_img srcs/phpmyadmin
 docker build -t wordpress_img srcs/wordpress
-#docker build -t grafana_img srcs/grafana
-#docker build -t influxdb_img srcs/influxdb
+docker build -t grafana_img srcs/grafana
+docker build -t influxdb_img srcs/influxdb
 
 
 DB_NAME=wordpress; DB_USER=wp_user; DB_PASSWORD=password; DB_HOST=mysql;
@@ -77,6 +77,8 @@ kubectl create -f ./srcs/ftps.yaml
 kubectl create -f ./srcs/mysql.yaml
 kubectl create -f ./srcs/phpmyadmin.yaml
 kubectl create -f ./srcs/wordpress.yaml
+kubectl create -f ./srcs/influxdb.yaml
+kubectl create -f ./srcs/grafana.yaml
 
 echo "Opening dashboard..."
 sudo minikube dashboard

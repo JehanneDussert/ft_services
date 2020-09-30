@@ -1,12 +1,31 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: grafana-deployment
+  name: grafana
+  labels:
+    app: grafana
 spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.99.104
+  ports:
+  - port: 3000
+    protocol: TCP
+    name: http
+  selector:
+    app: grafana
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+spec:
+  serviceName: grafana
+  replicas: 1
   selector:
     matchLabels:
       app: grafana
-  replicas: 1 # Nb de pods pour le service
   template:
     metadata:
       labels:
@@ -15,5 +34,17 @@ spec:
       containers:
       - name: grafana
         image: grafana_img
+        imagePullPolicy: Never
+        env:
+        - name: GRAF_USER
+          valueFrom:
+            secretKeyRef:
+              name: jdussert
+              key: user
+        - name: GRAF_PASS
+          valueFrom:
+            secretKeyRef:
+              name: jdussert
+              key: password
         ports:
         - containerPort: 3000
