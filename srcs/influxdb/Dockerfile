@@ -16,6 +16,6 @@ COPY ./supervisord.conf /etc/
 
 EXPOSE 8086
 
-COPY ./influxdb.sh .
-RUN chmod +x influxdb.sh
-ENTRYPOINT influxdb.sh
+COPY influxdb.sh ./influxdb.sh
+RUN chmod +x ./influxdb.sh
+ENTRYPOINT ./influxdb.sh

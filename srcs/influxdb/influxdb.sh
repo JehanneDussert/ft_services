@@ -1,4 +1,4 @@
 #!/bin/sh
-
-supervisord
+influxd
 tail -f /dev/null
+#supervisord
