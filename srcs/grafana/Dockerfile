@@ -13,6 +13,9 @@ RUN mkdir -p /var/log/supervisor/
 
 COPY ./supervisord.conf /etc/
 COPY ./grafana.ini /usr/share/grafana/conf/custom.ini
+COPY ./dashboard.yaml /usr/share/grafana/conf/provisioning/dashboards/
+COPY ./influxdb.yaml /usr/share/grafana/conf/provisioning/datasources/
+COPY ./dashboards /var/lib/grafana/dashboards/
 
 EXPOSE 3000
 
