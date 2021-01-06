@@ -8,7 +8,6 @@ RUN apk update && apk add grafana --repository=http://dl-cdn.alpinelinux.org/alp
 
 # Supervisord + telegraf
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
-	#echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
 	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 RUN mkdir -p /var/log/supervisor/

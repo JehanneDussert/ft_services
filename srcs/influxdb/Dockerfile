@@ -10,7 +10,6 @@ RUN mkdir -p /var/log/supervisor/
 
 # Supervisord + telegraf
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
-	#echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
 	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 COPY ./influxdb.conf /etc/influxdb/

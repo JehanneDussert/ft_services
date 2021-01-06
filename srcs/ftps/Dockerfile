@@ -18,7 +18,6 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-out /etc/ssl/certs/ftps-selfsigned.crt
 
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
-	#echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
 	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 EXPOSE 21 30000
