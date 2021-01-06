@@ -4,11 +4,19 @@
 if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
 	sudo apt-get install -y conntrack
 fi
-# Start minikube
+
+if kubectl version &>/dev/null; then
+	echo "Cleaning previous machine..."
+	sudo minikube stop
+	docker stop $(docker ps -a -q)
+	docker rm $(docker ps -a -q)
+	docker rmi $(docker images -a -q)
+fi
+
 if ! kubectl version &>/dev/null; then
 	service nginx stop
-	sudo minikube start --driver=none
 	echo "Starting minikube..."
+	sudo minikube start --driver=none
 fi
 
 #rm -rf /var/www/html/wordpress/
