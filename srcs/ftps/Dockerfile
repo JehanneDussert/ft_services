@@ -3,7 +3,7 @@ FROM alpine:3.12.3
 WORKDIR /tmp
 
 # Installing vsftpd package
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 RUN apk update
 RUN apk add openssl vsftpd
 #RUN apk add openrc --no-cache
@@ -18,7 +18,8 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-out /etc/ssl/certs/ftps-selfsigned.crt
 
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
-	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+	#echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 EXPOSE 21 30000
 

@@ -2,7 +2,7 @@ FROM alpine:3.12.3
 
 WORKDIR /tmp/
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 RUN apk update && apk add influxdb
 
 RUN mkdir -p /etc/influxdb/
@@ -10,7 +10,8 @@ RUN mkdir -p /var/log/supervisor/
 
 # Supervisord + telegraf
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
-	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+	#echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 COPY ./influxdb.conf /etc/influxdb/
 COPY ./supervisord.conf /etc/

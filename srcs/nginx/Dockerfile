@@ -3,12 +3,11 @@ FROM alpine:3.12.3
 WORKDIR /tmp
 
 # Installing nginx package
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 RUN apk update && apk add nginx openssl openssh-server openrc --no-cache
 RUN openrc; touch /run/openrc/softlevel
 RUN rc-update add sshd
-
-
+RUN sed -i -e "s/rc_parallel="YES"/rc_parallel="FALSE"/g" /etc/rc.conf
 
 RUN mkdir -p /run/nginx/
 
@@ -24,7 +23,8 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-out /etc/ssl/certs/nginx-selfsigned.crt
 
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
-	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+	#echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 VOLUME [ "/sys/fs/cgroup" ]
 

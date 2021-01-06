@@ -3,12 +3,13 @@ FROM alpine:3.12.3
 WORKDIR /tmp/
 
 # Grafana
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk update && apk add grafana --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+RUN apk update && apk add grafana --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 # Supervisord + telegraf
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
-	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+	#echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 RUN mkdir -p /var/log/supervisor/
 

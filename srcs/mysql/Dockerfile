@@ -2,7 +2,7 @@ FROM alpine:3.12.3
 
 WORKDIR /tmp
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 RUN apk update && apk add mariadb mariadb-common mariadb-client openrc --no-cache
 #RUN apk add net-tools && netstat -tulpn | grep 3306
 #RUN apk add mariadb-dev
@@ -18,7 +18,8 @@ RUN mkdir -p /var/log/supervisor/
 #RUN mkdir -p /var/run/mysqld/
 
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
-	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+	#echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 EXPOSE 3306
 
