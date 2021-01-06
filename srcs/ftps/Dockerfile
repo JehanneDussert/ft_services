@@ -1,8 +1,9 @@
-FROM alpine:3.12.0
+FROM alpine:3.12.3
 
 WORKDIR /tmp
 
 # Installing vsftpd package
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk update
 RUN apk add openssl vsftpd
 #RUN apk add openrc --no-cache

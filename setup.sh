@@ -1,5 +1,16 @@
 #!/usr/bin/env zsh
 
+# which donne le chemin du binaire
+if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
+	sudo apt-get install -y conntrack
+fi
+# Start minikube
+if ! kubectl version &>/dev/null; then
+	service nginx stop
+	sudo minikube start --driver=none
+	echo "Starting minikube..."
+fi
+
 #rm -rf /var/www/html/wordpress/
 kubectl delete --all deployment
 kubectl delete --all svc
@@ -11,17 +22,6 @@ kubectl delete --all secret
 rm -rf /tmp/k8s_pvc/
 #kubectl delete --all nodes
 #kubectl delete --all namespaces
-
-# which donne le chemin du binaire
-if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
-	sudo apt-get install -y conntrack
-fi
-# Start minikube
-if ! kubectl version &>/dev/null; then
-	service nginx stop
-	sudo minikube start --driver=none
-	echo "Starting minikube..."
-fi
 
 sudo chown -R user42 $HOME/.kube $HOME/.minikube
 
@@ -72,7 +72,7 @@ kubectl create secret generic db-id \
 
 kubectl create secret generic jdussert \
 	--from-literal=user="jdussert" \
-	--from-literal=password="pass"	
+	--from-literal=password="pass"
 
 # Deploy services
 echo "Building deployments and services..."

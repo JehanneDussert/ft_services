@@ -1,7 +1,8 @@
-FROM alpine:3.12.0
+FROM alpine:3.12.3
 
 WORKDIR /tmp/
 
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk update && apk add influxdb
 
 RUN mkdir -p /etc/influxdb/

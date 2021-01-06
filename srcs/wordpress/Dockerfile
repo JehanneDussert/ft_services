@@ -1,8 +1,9 @@
-FROM alpine:3.12.0
+FROM alpine:3.12.3
 
 WORKDIR /tmp
 
 # Nginx
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk update && apk add --no-cache nginx \
 	php7-fpm php7-mcrypt php7-session php7-soap php7-openssl php7-gmp \
 	php7-pdo_odbc php7-json php7-dom php7-pdo php7-zip php7-mysqli \

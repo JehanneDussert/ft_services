@@ -1,7 +1,8 @@
-FROM alpine:3.12.0
+FROM alpine:3.12.3
 
 WORKDIR /tmp
 
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk update && apk add mariadb mariadb-common mariadb-client openrc --no-cache
 #RUN apk add net-tools && netstat -tulpn | grep 3306
 #RUN apk add mariadb-dev

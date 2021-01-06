@@ -1,8 +1,9 @@
-FROM  alpine:3.12.0
+FROM alpine:3.12.3
 
 WORKDIR /tmp/
 
 # Grafana
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk update && apk add grafana --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 # Supervisord + telegraf
