@@ -1,9 +1,9 @@
 #!/bin/sh
 
 mysql_install_db --ldata=/var/lib/mysql
-sleep 2
+sleep 20
 mysqld --default-authentication-plugin=mysql_native_password &
-sleep 2
+sleep 20
 #mysqld
 tmpsql="/tmp/init_sql"
 echo > $tmpsql \

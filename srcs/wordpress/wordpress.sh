@@ -8,6 +8,17 @@ sed s/__DB_HOST__/$DB_HOST/g /var/www/wordpress/wp-config.php -i
 rm -rf /var/www/html/wordpress
 mv /var/www/wordpress/ /var/www/html
 
-#tail -f /dev/null
+wp core download --path=/var/www/wordpress
+
+wp core install \
+    --path=/var/www/wordpress \
+    --url=192.168.99.103:5050 \
+    --title=Title \
+    --admin_user=admin \
+    --admin_password=mdp123 \
+    --admin_email=jdussert@mail.fr
+
+wp user create user1 test1@mail.com --role=contributor --path=/var/www/wordpress
+wp user create user2 test2@mail.com --role=editor --path=/var/www/wordpress
 
 supervisord

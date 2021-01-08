@@ -23,6 +23,10 @@ RUN wget https://wordpress.org/${WP_FILE} && \
 
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl
 
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+	&& chmod +x wp-cli.phar \
+	&& mv wp-cli.phar /usr/local/bin/wp
+
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./wordpress_config.php /var/www/wordpress/
 COPY ./supervisord.conf /etc/
