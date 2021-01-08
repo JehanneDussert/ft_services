@@ -47,8 +47,7 @@ sed -e "s/strictARP: false/strictARP: true/" | \
 kubectl apply -f - -n kube-system
 
 # Install Metallb
-echo -en '\E[47;34'"\033[1mK\033[0m"
-echo "Installing MetalLB..."
+echo -en "\033[33mInstalling MetalLB...\033[00m\n"
 tput sgr0
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
@@ -93,9 +92,9 @@ kubectl create secret generic jdussert \
 # Deploy services
 echo -en "\033[33mBuilding deployments and services...\033[00m\n"
 tput sgr0
+kubectl create -f ./srcs/mysql.yaml
 kubectl create -f ./srcs/nginx.yaml
 kubectl create -f ./srcs/ftps.yaml
-kubectl create -f ./srcs/mysql.yaml
 kubectl create -f ./srcs/phpmyadmin.yaml
 kubectl create -f ./srcs/wordpress.yaml
 kubectl create -f ./srcs/influxdb.yaml

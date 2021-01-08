@@ -1,9 +1,9 @@
 #!/bin/sh
 
 mysql_install_db --ldata=/var/lib/mysql
-sleep 20
+sleep 5
 mysqld --default-authentication-plugin=mysql_native_password &
-sleep 20
+sleep 5
 #mysqld
 tmpsql="/tmp/init_sql"
 echo > $tmpsql \
@@ -21,8 +21,8 @@ FLUSH PRIVILEGES;"
 if [ ! -f /var/lib/mysql/wpNewUsers ]; then
 	echo "done" >> /var/lib/mysql/wpNewUsers
 	mysql -h localhost -e "$(cat $tmpsql)"
-	mysql -h localhost -e "$(cat ./wordpress.sql)"
-	mysql -h localhost -e "$(cat ./new_users.sql)"
+	mysql -h localhost -e "$(cat ./mysql.sql)"
+	#mysql -h localhost -e "$(cat ./new_users.sql)"
 fi
 
 rm -f $tmpsql
