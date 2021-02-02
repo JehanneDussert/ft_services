@@ -7,10 +7,9 @@ RUN apk update && apk add mariadb mariadb-common mariadb-client openrc --no-cach
 
 COPY ./supervisord.conf /etc/
 COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
-# COPY ./users.sql .
-# COPY ./wordpress.sql .
+COPY mysql.sql ./mysql.sql
 
-sRUN rmdir /var/lib/mysql/
+RUN rmdir /var/lib/mysql/
 RUN mkdir -p /var/log/supervisor/
 
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
@@ -18,7 +17,6 @@ RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && 
 
 EXPOSE 3306
 
-COPY mysql.sql ./mysql.sql
 COPY mysql.sh ./mysql.sh
 RUN chmod +x ./mysql.sh
 ENTRYPOINT ./mysql.sh

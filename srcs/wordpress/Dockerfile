@@ -1,4 +1,4 @@
-FROM alpine:3.12.3
+FROM alpine:edge
 
 WORKDIR /tmp
 
@@ -10,7 +10,11 @@ RUN apk update && apk add --no-cache nginx \
 	php7-sqlite3 php7-apcu php7-pdo_pgsql php7-bcmath php7-gd php7-odbc \
 	php7-pdo_mysql php7-pdo_sqlite php7-gettext php7-xmlreader \
 	php7-xmlrpc php7-bz2 php7-iconv php7-pdo_dblib php7-curl php7-ctype \
-	php7-opcache php7-zlib mysql-client
+	php7-opcache php7-zlib mysql-client php-common php-cli php-bz2 php-phar
+RUN apk add --no-cache  --repository http://dl-cdn.alpinelinux.org/alpine/edge/community php \
+	&& apk add mysql-client
+RUN php -v
+
 RUN mkdir -p /run/nginx/
 
 # Installing wordpress packaging
@@ -23,12 +27,12 @@ RUN wget https://wordpress.org/${WP_FILE} && \
 
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl
 
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-	&& chmod +x wp-cli.phar \
-	&& mv wp-cli.phar /usr/local/bin/wp
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-COPY ./wordpress_config.php /var/www/wordpress/
+COPY ./wordpress_config.php /var/www/wordpress/wp-config.php
 COPY ./supervisord.conf /etc/
 # RUN chown -R www-data:www-data /var/www/html/wordpress/
 
