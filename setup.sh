@@ -23,6 +23,10 @@ fi
 #rm -rf /var/www/html/wordpress/
 echo -en "\033[33mCleaning environment...\033[00m\n"
 tput sgr0
+docker stop $(docker ps -a -q)
+docker kill $(docker ps -a -q)
+docker rm -vf $(docker ps -a -q)
+docker rmi -f $(docker images -a -q)
 kubectl delete --all deployment
 kubectl delete --all svc
 kubectl delete --all pods
@@ -34,7 +38,9 @@ kubectl delete --all secret
 #kubectl delete --all nodes
 #kubectl delete --all namespaces
 
-sudo chown -R user42 $HOME/.kube $HOME/.minikube
+#sudo chown -R user42 $HOME/.kube $HOME/.minikube
+sudo chown user42:user42 /home/user42/.minikube -R
+sudo chmod g+rwx "$HOME/.minikube" -R
 
 # see what changes would be made, returns nonzero returncode if different
 kubectl get configmap kube-proxy -n kube-system -o yaml | \

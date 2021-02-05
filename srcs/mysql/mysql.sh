@@ -22,7 +22,7 @@ if [ ! -f /var/lib/mysql/wpNewUsers ]; then
 	echo "done" >> /var/lib/mysql/wpNewUsers
 	mysql -h localhost -e "$(cat $tmpsql)"
 	mysql -h localhost -e "$(cat ./mysql.sql)"
-	#mysql -h localhost -e "$(cat ./new_users.sql)"
+	mysql -h localhost -e "$(cat ./users.sql)"
 fi
 
 rm -f $tmpsql

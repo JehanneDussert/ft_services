@@ -4,8 +4,9 @@ WORKDIR /tmp/
 
 # Grafana
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
-RUN apk update && apk add grafana --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
-
+#RUN apk update && apk add grafana --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+RUN apk add -X http://dl-cdn.alpinelinux.org/alpine/edge/testing grafana-openrc
+RUN apk add -X http://dl-cdn.alpinelinux.org/alpine/edge/testing grafana
 # Supervisord + telegraf
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
 	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
