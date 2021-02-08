@@ -2,12 +2,12 @@ FROM alpine:3.13
 
 WORKDIR /tmp/
 
+# User=jdussert ; Password=password
+
 # Grafana
-#RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-#RUN apk update && apk add grafana --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 RUN apk upgrade \
-	&& apk add -X http://dl-cdn.alpinelinux.org/alpine/edge/testing grafana grafana-openrc
+	&& apk add grafana grafana-openrc
+
 # Supervisord + telegraf
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
 	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
@@ -23,5 +23,6 @@ COPY ./dashboards /var/lib/grafana/dashboards/
 EXPOSE 3000
 
 COPY grafana.sh ./grafana.sh
+COPY telegraf.conf ./telegraf.conf
 RUN chmod +x ./grafana.sh
 ENTRYPOINT ./grafana.sh

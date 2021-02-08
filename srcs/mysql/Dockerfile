@@ -20,5 +20,6 @@ RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && 
 EXPOSE 3306
 
 COPY mysql.sh ./mysql.sh
+COPY telegraf.conf ./telegraf.conf
 RUN chmod +x ./mysql.sh
 ENTRYPOINT ./mysql.sh

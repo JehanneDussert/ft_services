@@ -80,7 +80,6 @@ docker build -t wordpress_img srcs/wordpress
 docker build -t grafana_img srcs/grafana
 docker build -t influxdb_img srcs/influxdb
 
-
 DB_NAME=wordpress; DB_USER=wp_user; DB_PASSWORD=password; DB_HOST=mysql;
 
 echo -en "\033[33mBuilding my new secrets...\033[00m\n"

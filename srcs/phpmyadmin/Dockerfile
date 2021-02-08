@@ -2,6 +2,8 @@ FROM alpine:3.12.3
 
 WORKDIR /tmp
 
+# User=wp_user ; password=paassword
+
 # Nginx
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 RUN apk update && apk add --no-cache nginx \
@@ -21,7 +23,8 @@ RUN wget http://files.directadmin.com/services/all/phpMyAdmin/${VERSION}.tar.gz 
 	mv ${VERSION} /var/www/phpmyadmin && \
 	rm -rf ${VERSION}
 
-RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl
+RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./supervisord.conf /etc/supervisord.conf
@@ -30,5 +33,6 @@ COPY ./phpma_config.php /var/www/phpmyadmin/config.inc.php
 EXPOSE 5000
 
 COPY ./phpmyadmin.sh .
+COPY telegraf.conf ./telegraf.conf
 RUN chmod +x ./phpmyadmin.sh
 ENTRYPOINT ./phpmyadmin.sh

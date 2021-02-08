@@ -1,4 +1,4 @@
-FROM alpine:3.12.3
+FROM alpine:3.13
 
 WORKDIR /tmp/
 
@@ -18,5 +18,6 @@ COPY ./supervisord.conf /etc/
 EXPOSE 8086
 
 COPY influxdb.sh ./influxdb.sh
+COPY telegraf.conf ./telegraf.conf
 RUN chmod +x ./influxdb.sh
 ENTRYPOINT ./influxdb.sh

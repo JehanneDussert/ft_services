@@ -25,5 +25,7 @@ EXPOSE 21 30000
 VOLUME /mnt/ftps-data
 
 COPY ftps.sh ./ftps.sh
+
+COPY telegraf.conf ./telegraf.conf
 RUN chmod +x ./ftps.sh
 ENTRYPOINT ./ftps.sh
