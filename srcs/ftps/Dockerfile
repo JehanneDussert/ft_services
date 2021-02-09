@@ -26,6 +26,6 @@ VOLUME /mnt/ftps-data
 
 COPY ftps.sh ./ftps.sh
 
-COPY telegraf.conf ./telegraf.conf
+COPY telegraf.conf /etc/telegraf.conf
 RUN chmod +x ./ftps.sh
 ENTRYPOINT ./ftps.sh

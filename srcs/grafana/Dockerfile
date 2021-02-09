@@ -23,6 +23,6 @@ COPY ./dashboards /var/lib/grafana/dashboards/
 EXPOSE 3000
 
 COPY grafana.sh ./grafana.sh
-COPY telegraf.conf ./telegraf.conf
+COPY telegraf.conf /etc/telegraf.conf
 RUN chmod +x ./grafana.sh
 ENTRYPOINT ./grafana.sh

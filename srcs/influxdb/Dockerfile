@@ -18,6 +18,6 @@ COPY ./supervisord.conf /etc/
 EXPOSE 8086
 
 COPY influxdb.sh ./influxdb.sh
-COPY telegraf.conf ./telegraf.conf
+COPY telegraf.conf /etc/telegraf.conf
 RUN chmod +x ./influxdb.sh
 ENTRYPOINT ./influxdb.sh

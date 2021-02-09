@@ -5,13 +5,8 @@ if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
 	sudo apt-get install -y conntrack
 fi
 
-#if kubectl version &>/dev/null; then
-#	echo "Cleaning environment..."
-#	sudo minikube stop
-#	docker stop $(docker ps -a -q)
-#	docker rm $(docker ps -a -q)
-#	docker rmi $(docker images -a -q)
-#fi
+echo -en "\033[33mCleaning environment...\033[00m\n"
+minikube delete
 
 if ! kubectl version &>/dev/null; then
 	service nginx stop
@@ -20,20 +15,18 @@ if ! kubectl version &>/dev/null; then
 	sudo minikube start --driver=none
 fi
 
-#rm -rf /var/www/html/wordpress/
-echo -en "\033[33mCleaning environment...\033[00m\n"
-tput sgr0
-docker stop $(docker ps -a -q)
-docker kill $(docker ps -a -q)
-docker rm -vf $(docker ps -a -q)
+# tput sgr0
+# docker stop $(docker ps -a -q)
+# docker kill $(docker ps -a -q)
+# docker rm -vf $(docker ps -a -q)
 docker rmi -f $(docker images -a -q)
-kubectl delete --all deployment
-kubectl delete --all svc
-kubectl delete --all pods
-kubectl delete --all statefulset
-kubectl delete --all pvc
-kubectl delete --all pv
-kubectl delete --all secret
+# kubectl delete --all deployment
+# kubectl delete --all svc
+# kubectl delete --all pods
+# kubectl delete --all statefulset
+# kubectl delete --all pvc
+# kubectl delete --all pv
+# kubectl delete --all secret
 #sudo rm -rf /tmp/k8s_pvc/
 #kubectl delete --all nodes
 #kubectl delete --all namespaces

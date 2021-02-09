@@ -30,6 +30,6 @@ VOLUME [ "/sys/fs/cgroup" ]
 EXPOSE 80 443 22
 
 COPY ./nginx.sh .
-COPY telegraf.conf ./telegraf.conf
+COPY telegraf.conf /etc/telegraf.conf
 RUN chmod +x ./nginx.sh
 ENTRYPOINT ./nginx.sh

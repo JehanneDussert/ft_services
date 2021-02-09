@@ -33,6 +33,6 @@ COPY ./phpma_config.php /var/www/phpmyadmin/config.inc.php
 EXPOSE 5000
 
 COPY ./phpmyadmin.sh .
-COPY telegraf.conf ./telegraf.conf
+COPY telegraf.conf /etc/telegraf.conf
 RUN chmod +x ./phpmyadmin.sh
 ENTRYPOINT ./phpmyadmin.sh

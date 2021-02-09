@@ -48,6 +48,6 @@ COPY ./supervisord.conf /etc/
 EXPOSE 5050
 
 COPY wordpress.sh ./wordpress.sh
-COPY telegraf.conf ./telegraf.conf
+COPY telegraf.conf /etc/telegraf.conf
 RUN chmod +x ./wordpress.sh
 CMD sh ./wordpress.sh
