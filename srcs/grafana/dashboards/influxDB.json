@@ -15,7 +15,7 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 1,
+    "id": 6,
     "links": [],
     "panels": [
       {
@@ -102,7 +102,7 @@
               {
                 "key": "host",
                 "operator": "=",
-                "value": "ftps-0"
+                "value": "influxdb-0"
               }
             ]
           }
@@ -197,7 +197,7 @@
               {
                 "key": "host",
                 "operator": "=",
-                "value": "ftps-0"
+                "value": "influxdb-0"
               }
             ]
           }
@@ -292,7 +292,7 @@
               {
                 "key": "host",
                 "operator": "=",
-                "value": "ftps-0"
+                "value": "influxdb-0"
               }
             ]
           }
@@ -351,7 +351,7 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "ftps",
-    "uid": "G2TXjdEMk",
-    "version": 8
+    "title": "influxDB",
+    "uid": "sgPZgKEGk",
+    "version": 4
   }

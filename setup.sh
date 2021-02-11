@@ -19,7 +19,7 @@ fi
 # docker stop $(docker ps -a -q)
 # docker kill $(docker ps -a -q)
 # docker rm -vf $(docker ps -a -q)
-docker rmi -f $(docker images -a -q)
+# docker rmi -f $(docker images -a -q)
 # kubectl delete --all deployment
 # kubectl delete --all svc
 # kubectl delete --all pods

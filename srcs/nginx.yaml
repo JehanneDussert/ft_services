@@ -20,14 +20,17 @@ spec:
     name: ssh
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: nginx
+  labels:
+    run: nginx
 spec:
+  serviceName: nginx
+  replicas: 1
   selector:
     matchLabels:
       run: nginx
-  replicas: 1
   template:
     metadata:
       labels:
