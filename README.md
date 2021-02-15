@@ -21,13 +21,3 @@ Si vous souhaitez contribuer, lisez le fichier [CONTRIBUTING.md](https://example
 ## Versions
 
 **Version d'Alpine: 3.12.3
-
-The project consists of setting up an infrastructure of different services, with a multi-service cluster. Each service runs in a dedicated container, builds using Alpine Linux with its own Dockerfile, called in the setup.sh which builds the images.
-Other features :
-- a Kubernetes web dashboard to manage the cluster
-- a Load Balancer which manages the external access of the services. The Load Balancer has a single IP
-- a WordPress website which works with a MySQL database and has its own nginx server
-- phpMyAdmin linked with the MySQL database, with its own nginx server
-- a nginx server with port 80 (http) and redirection of type 301 to 443 (https)
-- a FTPS server
-- a grafana platform linked with an InfluxDB database, monitoring all the containers, with one dashboard per service
