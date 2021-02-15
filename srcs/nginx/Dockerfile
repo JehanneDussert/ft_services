@@ -16,6 +16,8 @@ COPY index.html /var/www/localhost/htdocs/index.html
 COPY ./sshd_config /etc/ssh/
 COPY ./supervisord.conf /etc/supervisord.conf
 COPY ./self-signed.conf /etc/nginx/
+RUN rm /etc/nginx/conf.d/default.conf \
+	&& chown -R nginx:nginx /var/www/localhost/
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-subj "/C=FR/ST=75/L=Paris/O=42/CN=jdussert" \
@@ -27,9 +29,4 @@ RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && 
 
 VOLUME [ "/sys/fs/cgroup" ]
 
-EXPOSE 80 443 22
-
-COPY ./nginx.sh .
-COPY telegraf.conf /etc/telegraf.conf
-RUN chmod +x ./nginx.sh
-ENTRYPOINT ./nginx.sh
+EXPOSE 80 443

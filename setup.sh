@@ -1,49 +1,46 @@
 #!/usr/bin/env zsh
 
 # which donne le chemin du binaire
-if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
-	sudo apt-get install -y conntrack
-fi
+# if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
+# 	sudo apt-get install -y conntrack
+# fi
 
-echo -en "\033[33mCleaning environment...\033[00m\n"
+# echo -en "\033[33mCleaning environment...\033[00m\n"
+# minikube delete
+
+# if ! kubectl version &>/dev/null; then
+# 	service nginx stop
+# 	echo -en "\033[33mStarting minikube...\033[00m\n"
+# 	tput sgr0
+# 	sudo minikube start -driver=none
+# fi
+
+# #sudo chown -R user42 $HOME/.kube $HOME/.minikube
+# sudo chown user42:user42 /home/user42/.minikube -R
+# sudo chmod g+rwx "$HOME/.minikube" -R
+
+### ALEX ###
+
+#sudo usermod -aG docker user42; newgrp docker
+
+# demarrage
 minikube delete
+minikube start --vm-driver=docker
 
-if ! kubectl version &>/dev/null; then
-	service nginx stop
-	echo -en "\033[33mStarting minikube...\033[00m\n"
-	tput sgr0
-	sudo minikube start --driver=none
-fi
+# paramétrage du docker
+eval $(minikube docker-env)
 
-# tput sgr0
-# docker stop $(docker ps -a -q)
-# docker kill $(docker ps -a -q)
-# docker rm -vf $(docker ps -a -q)
-# docker rmi -f $(docker images -a -q)
-# kubectl delete --all deployment
-# kubectl delete --all svc
-# kubectl delete --all pods
-# kubectl delete --all statefulset
-# kubectl delete --all pvc
-# kubectl delete --all pv
-# kubectl delete --all secret
-#sudo rm -rf /tmp/k8s_pvc/
-#kubectl delete --all nodes
-#kubectl delete --all namespaces
+### ALEX ###
 
-#sudo chown -R user42 $HOME/.kube $HOME/.minikube
-sudo chown user42:user42 /home/user42/.minikube -R
-sudo chmod g+rwx "$HOME/.minikube" -R
+# # see what changes would be made, returns nonzero returncode if different
+# kubectl get configmap kube-proxy -n kube-system -o yaml | \
+# sed -e "s/strictARP: false/strictARP: true/" | \
+# kubectl diff -f - -n kube-system
 
-# see what changes would be made, returns nonzero returncode if different
-kubectl get configmap kube-proxy -n kube-system -o yaml | \
-sed -e "s/strictARP: false/strictARP: true/" | \
-kubectl diff -f - -n kube-system
-
-# actually apply the changes, returns nonzero returncode on errors only
-kubectl get configmap kube-proxy -n kube-system -o yaml | \
-sed -e "s/strictARP: false/strictARP: true/" | \
-kubectl apply -f - -n kube-system
+# # actually apply the changes, returns nonzero returncode on errors only
+# kubectl get configmap kube-proxy -n kube-system -o yaml | \
+# sed -e "s/strictARP: false/strictARP: true/" | \
+# kubectl apply -f - -n kube-system
 
 # Install Metallb
 echo -en "\033[33mInstalling MetalLB...\033[00m\n"
@@ -53,7 +50,7 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manife
 # kubectl delete secrets memberlist
 kubectl create secret generic -n metallb-system memberlist \
 --from-literal=secretkey="$(openssl rand -base64 128)"
-kubectl delete -f ./srcs/metallb-conf.yaml; kubectl apply -f ./srcs/metallb-conf.yaml
+kubectl apply -f ./srcs/metallb-conf.yaml
 # If you want to see your secret : kubectl get secrets
 # To use it : a pod has to reference the secret
 
@@ -100,4 +97,4 @@ kubectl create -f ./srcs/grafana.yaml
 
 echo -en "\033[33mOpening dashboard...\033[00m\n"
 tput sgr0
-sudo minikube dashboard
+minikube dashboard

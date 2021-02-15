@@ -20,7 +20,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
 	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
-EXPOSE 21 30000
+EXPOSE 21 40000 20000 50000
 
 VOLUME /mnt/ftps-data
 
