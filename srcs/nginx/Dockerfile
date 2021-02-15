@@ -30,3 +30,8 @@ RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && 
 VOLUME [ "/sys/fs/cgroup" ]
 
 EXPOSE 80 443
+
+COPY ./nginx.sh .
+COPY telegraf.conf /etc/telegraf.conf
+RUN chmod +x ./nginx.sh
+ENTRYPOINT ./nginx.sh
