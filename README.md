@@ -17,7 +17,7 @@ Ce projet a pour but de nous faire découvrir Kubernetes afin de virtualiser un 
 ## Relancer seulement certains services
 Commandes à exécuter :
 - source fct.zsh
-- kre nom_du_pod
+- kre nom_du_service
 
 ## Contributeurs
 * [Jehanne Dussert](https://github.com/JehanneDussert) - Projet
