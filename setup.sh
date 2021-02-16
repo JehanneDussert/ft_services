@@ -1,53 +1,15 @@
 #!/usr/bin/env zsh
-
-# which donne le chemin du binaire
-# if ! which conntrack &>/dev/null; then # si y a pas le binaire de conntrack
-# 	sudo apt-get install -y conntrack
-# fi
-
-# echo -en "\033[33mCleaning environment...\033[00m\n"
-# minikube delete
-
-# if ! kubectl version &>/dev/null; then
-# 	service nginx stop
-# 	echo -en "\033[33mStarting minikube...\033[00m\n"
-# 	tput sgr0
-# 	sudo minikube start -driver=none
-# fi
-
-# #sudo chown -R user42 $HOME/.kube $HOME/.minikube
-# sudo chown user42:user42 /home/user42/.minikube -R
-# sudo chmod g+rwx "$HOME/.minikube" -R
-
-### ALEX ###
-
 #sudo usermod -aG docker user42; newgrp docker
 
-# demarrage
 minikube delete
 minikube start --vm-driver=docker
-
-# paramétrage du docker
 eval $(minikube docker-env)
-
-### ALEX ###
-
-# # see what changes would be made, returns nonzero returncode if different
-# kubectl get configmap kube-proxy -n kube-system -o yaml | \
-# sed -e "s/strictARP: false/strictARP: true/" | \
-# kubectl diff -f - -n kube-system
-
-# # actually apply the changes, returns nonzero returncode on errors only
-# kubectl get configmap kube-proxy -n kube-system -o yaml | \
-# sed -e "s/strictARP: false/strictARP: true/" | \
-# kubectl apply -f - -n kube-system
 
 # Install Metallb
 echo -en "\033[33mInstalling MetalLB...\033[00m\n"
 tput sgr0
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
-# kubectl delete secrets memberlist
 kubectl create secret generic -n metallb-system memberlist \
 --from-literal=secretkey="$(openssl rand -base64 128)"
 kubectl apply -f ./srcs/metallb-conf.yaml
