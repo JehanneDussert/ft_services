@@ -13,7 +13,7 @@ COPY ./supervisord.conf /etc/supervisord.conf
 COPY ./ftps-selfsigned.conf /etc/ftps/
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-	-subj "/C=FR/ST=75/L=Paris/O=42/CN=192.168.99.101" \
+	-subj "/C=FR/ST=75/L=Paris/O=42/CN=jdussert" \
 	-keyout /etc/ssl/private/ftps-selfsigned.key \
 	-out /etc/ssl/certs/ftps-selfsigned.crt
 
