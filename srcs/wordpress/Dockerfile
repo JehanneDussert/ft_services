@@ -17,37 +17,18 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-keyout /etc/ssl/private/nginx-selfsigned.key \
 	-out /etc/ssl/certs/nginx-selfsigned.crt
 
-# Installing wordpress packaging
-# ARG VERSION="wordpress-5.6"
-# ARG WP_FILE="${VERSION}.tar.gz"
-# RUN wget https://wordpress.org/${WP_FILE} && \
-# 	tar -xf ${WP_FILE} && \
-# 	mv wordpress /var/www/localhost/wordpress
-# 	#rm -rf ${WP_FILE}
+# Installing wordpress
 COPY WordPress /var/www/localhost/wordpress
 COPY nginx.conf /etc/nginx/conf.d/localhost.conf
-#COPY srcs/WordPress /var/www/localhost/wordpress
-#COPY ./wordpress_config.php /var/www/localhost/wordpress/wp-config.php
-
 RUN rm /etc/nginx/conf.d/default.conf \
 && chown -R nginx:nginx /var/www/localhost/wordpress
 
-RUN apk add openrc
-RUN rc-status
-RUN touch /run/openrc/softlevel
+RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
+	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
-ENTRYPOINT rc-service php-fpm7 start && rc-service nginx start && tail -f /dev/null
+COPY ./supervisord.conf /etc/
 
-# RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
-# 	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
-
-# COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-# 	&& chown -R nginx:nginx /var/www/localhost/wordpress
-# COPY ./supervisord.conf /etc/
-# RUN chown -R www-data:www-data /var/www/html/wordpress/
-
-
-# COPY wordpress.sh ./wordpress.sh
-# COPY telegraf.conf /etc/telegraf.conf
-# RUN chmod +x ./wordpress.sh
-# CMD sh ./wordpress.sh
+COPY wordpress.sh ./wordpress.sh
+COPY telegraf.conf /etc/telegraf.conf
+RUN chmod +x ./wordpress.sh
+CMD sh ./wordpress.sh

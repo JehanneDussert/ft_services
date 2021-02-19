@@ -1,48 +1,83 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: wordpress-deployment
-  labels:
-    app: wordpress
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: wordpress
-  template:
-    metadata:
-      labels:
-        app: wordpress
-    spec:
-      containers:
-      - name: wordpress
-        image: wordpress_img
-        imagePullPolicy: Never
-        livenessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - rc-service nginx status && rc-service php-fpm7 status
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        ports:
-        - containerPort: 5050
-          name: https
----
 apiVersion: v1
 kind: Service
 metadata:
   name: wordpress
   annotations:
     metallb.universe.tf/allow-shared-ip: minikube
+  labels:
+    run: wordpress
 spec:
-  selector:
-    app: wordpress
   type: LoadBalancer
   ports:
-    - protocol: TCP
-      name: https
-      port: 5050
-      targetPort: 5050
+  - name: https
+    port: 5050
+    targetPort: 5050
+  selector:
+    run: wordpress
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pv-claim
+  labels:
+    run: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wordpress
+  labels:
+    run: wordpress
+spec:
+  serviceName: wordpress
+  replicas: 1
+  selector:
+    matchLabels:
+      run: wordpress
+  template:
+    metadata:
+      labels:
+        run: wordpress
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress_img
+        imagePullPolicy: Never
+        env:
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: password
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-id
+              key: host
+        ports:
+        - containerPort: 5050
+          name: https
+        volumeMounts:
+        - name: wordpress-persistent-storage
+          mountPath: /var/www/locahost
+      volumes:
+      - name: wordpress-persistent-storage
+        persistentVolumeClaim:
+          claimName: wp-pv-claim
       
