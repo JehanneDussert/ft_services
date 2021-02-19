@@ -1,5 +1,3 @@
-USE wordpress;
-
 -- Create wpuser1:wpuser1pass (Author)
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_status`, `display_name`)
 VALUES (2, 'user1', MD5('password1'), 'user1', 'user1@mail.com', '0', 'user1')

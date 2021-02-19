@@ -1,4 +1,4 @@
-FROM alpine:3.12.3
+FROM alpine:3.13
 
 WORKDIR /tmp
 
@@ -7,13 +7,12 @@ RUN apk update && apk add mariadb mariadb-common mariadb-client openrc --no-cach
 
 COPY ./supervisord.conf /etc/
 COPY ./my.cnf /etc/my.cnf.d/mariadb-server.cnf
-COPY mysql.sql ./mysql.sql
+COPY wordpress.sql ./wordpress.sql
 COPY users.sql ./users.sql
 
 RUN rmdir /var/lib/mysql/
 RUN mkdir -p /var/log/supervisor/
 
-# Mli does not install it ?
 RUN apk update && apk upgrade && apk add --no-cache vim supervisor wget curl && \
 	apk add telegraf --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
