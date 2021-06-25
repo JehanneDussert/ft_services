@@ -15,7 +15,7 @@
 - ./setup.sh
 - If you want to restart only some services : __source fct.zsh__ then __kre service_name__
 
-## Reference
+## 🖇 Reference
 * [Kubernetes](https://kubernetes.io/fr/docs/home/) - Understand Kubernetes, what .yaml is, services, pods, etc.
 * [Minikube](https://kubernetes.io/fr/docs/setup/learning-environment/minikube/) - "Tool to facilitate local execution of Kubernetes"
 * [MetalLB](https://metallb.universe.tf/installation/) - To install the Loadbalancer
